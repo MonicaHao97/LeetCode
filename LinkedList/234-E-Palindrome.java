@@ -1,20 +1,19 @@
 class Solution {
     public boolean isPalindrome(ListNode head) {
-        ArrayList<Integer> list = new ArrayList<Integer> ();
-        ListNode temp = head;
-        while(temp != null){
-            list.add(temp.val);
-            temp = temp.next;
+        ListNode start = new ListNode(-1);
+        start.next = head;
+        return check(start, head);
+    }
+    
+    public boolean check(ListNode start, ListNode end) {
+        if(end == null) {
+            return true;
         }
-        int j = 0;
-        int k = list.size() - 1;
-        while(j < k){
-            if(!list.get(j).equals(list.get(k))){
-                return false;
-            }
-            j ++;
-            k --;
-        }
-        return true;
+        
+        boolean isEnd = check(start, end.next);
+        boolean isPalin = (start.next.val == end.val) ? true : false;
+        start.next = start.next.next;
+        
+        return isEnd && isPalin;
     }
 }
