@@ -1,36 +1,36 @@
 class Solution {
     public ListNode mergeKLists(ListNode[] lists) {
-        if(lists == null || lists.length == 0) {
+        return partion(lists, 0, lists.length - 1);
+    }
+    
+    public ListNode partion(ListNode[] lists, int start, int end) {
+        if(start == end) {
+            return lists[start];
+        }
+        
+        if(start < end) {
+            int mid = (start + end) / 2;
+            ListNode l1 = partion(lists, start, mid);
+            ListNode l2 = partion(lists, mid + 1, end);
+            return merge(l1, l2);
+        } else {
             return null;
         }
-        return sort(lists, 0, lists.length - 1);
     }
     
-    private ListNode sort(ListNode[] lists, int low, int high) {
-        if(low >= high) {
-            return lists[low];
+    public ListNode merge(ListNode l1, ListNode l2) {
+        if(l1 == null) {
+            return l2;
         }
-        else {
-            int mid = (high - low) / 2 + low;
-            ListNode left = sort(lists, low, mid);
-            ListNode right = sort(lists, mid + 1, high);
-            return merge(left, right);
+        if(l2 == null) {
+            return l1;
         }
-    }
-    
-    private ListNode merge(ListNode left, ListNode right) {
-        if(left == null) {
-            return right;
-        }
-        if(right == null) {
-            return left;
-        }
-        if(left.val <= right.val) {
-            left.next =  merge(left.next, right);
-            return left;
-        }else {
-            right.next = merge(left, right.next);
-            return right;
+        if(l1.val < l2.val) {
+            l1.next = merge(l1.next, l2);
+            return l1;
+        }else{
+            l2.next = merge(l1, l2.next);
+            return l2;
         }
     }
 }
