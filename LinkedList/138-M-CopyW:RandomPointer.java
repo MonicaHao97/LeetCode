@@ -1,44 +1,45 @@
 class Solution {
     public Node copyRandomList(Node head) {
-        if(head == null) {
-            return head;
-        }
-        
         Node temp = head;
-        Node next = head;
+        Node next;
         
+        //First, make a deep copy of each node and connect the copy to the next
         while(temp != null) {
             next = temp.next;
             
             Node copy = new Node(temp.val);
-            temp.next = copy;
             copy.next = next;
-            
+            temp.next = copy;
             temp = next;
         }
         
+        //reset temp = head; then copy each node's random pointer if exists
         temp = head;
-        while(temp != null) {
+        while(temp != null) {            
             if(temp.random != null) {
                 temp.next.random = temp.random.next;
             }
             temp = temp.next.next;
         }
         
+        //create a dummy head to store the new list
+        //access the copied node, connect to it to newHead
+        //restore the original list
         temp = head;
-        Node newHead = head.next;
-        Node newCopy = newHead;
+        Node newHead = new Node(0);
+        Node copy = head;
+        Node iter = newHead;
         while(temp != null) {
-            next = temp.next.next; 
-            newCopy = temp.next;
+            next = temp.next.next;
+            
+            copy = temp.next;
+            iter.next = copy;
+            iter = copy;
             temp.next = next;
             
-            if(next != null) {
-                newCopy.next = next.next;
-            }
             temp = next;
         }
         
-        return newHead;
+        return newHead.next;
     }
 }
