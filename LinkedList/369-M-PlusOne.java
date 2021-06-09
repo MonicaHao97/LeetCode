@@ -2,30 +2,31 @@ class Solution {
     public ListNode plusOne(ListNode head) {
         ListNode dummy = new ListNode(0);
         dummy.next = head;
-        ListNode lastNotNine = dummy;
-        ListNode temp = dummy;
+        ListNode i = dummy;
+        ListNode j = dummy;
         
-        while(temp.next != null) {
-            temp = temp.next;
-            if(temp.val != 9) {
-                lastNotNine = temp;
+        while(j.next != null) {
+            j = j.next;
+            if(j.val != 9) {
+                i = j;
             }
         }
         
-        if(temp.val != 9) {
-            temp.val += 1;
+        if(j.val != 9) {
+            j.val ++;
         }else{
-            lastNotNine.val += 1;
-            while(lastNotNine.next != null) {
-                lastNotNine = lastNotNine.next;
-                lastNotNine.val = 0;
+            i.val ++;
+            i = i.next;
+            while(i != null) {
+                i.val = 0;
+                i = i.next;
             }
         }
         
-        if(dummy.val == 0) {
+        if(dummy.val != 0) {
+            return dummy;
+        }else{
             return dummy.next;
         }
-        
-        return dummy;
     }
 }
