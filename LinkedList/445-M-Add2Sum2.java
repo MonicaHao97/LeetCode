@@ -2,39 +2,32 @@ class Solution {
     public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
         Stack<Integer> s1 = new Stack<Integer>();
         Stack<Integer> s2 = new Stack<Integer>();
-        ListNode p1 = l1;
-        ListNode p2 = l2;
-        while(p1 != null || p2 != null){
-            if(p1 != null){
-                s1.push(p1.val);
-                p1 = p1.next;
-            }
-            if(p2 != null){
-                s2.push(p2.val);
-                p2 = p2.next;
-            }
+        
+        while(l1 != null) {
+            s1.push(l1.val);
+            l1 = l1.next;
         }
-        Stack<Integer> s3 = new Stack<Integer>();
+        
+        while(l2 != null) {
+            s2.push(l2.val);
+            l2 = l2.next;
+        }
+        
         int sum = 0;
-        while(!s1.isEmpty() || !s2.isEmpty()){
-            sum /= 10;
-            if(!s1.isEmpty()){
+        ListNode list = new ListNode(0);
+        while(!s1.empty() || !s2.empty()) {
+            if(!s1.empty()) {
                 sum += s1.pop();
             }
-            if(!s2.isEmpty()){
+            if(!s2.empty()) {
                 sum += s2.pop();
             }
-            s3.push(sum % 10);
+            list.val = sum % 10;
+            ListNode head = new ListNode(sum/10);
+            head.next = list;
+            list = head;
+            sum /= 10;
         }
-        if(sum >= 10){
-            s3.push(1);
-        }
-        ListNode result = new ListNode(0);
-        ListNode temp = result;
-        while (!s3.isEmpty()){
-            result.next = new ListNode(s3.pop());
-            result = result.next;
-        }
-        return temp.next;
+        return list.val == 0 ? list.next : list;
     }
 }
