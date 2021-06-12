@@ -1,4 +1,6 @@
 class Solution {
+
+    //find middle and break in half
     public void reorderList(ListNode head) {
         ListNode slow = head;
         ListNode fast = head.next;
@@ -13,6 +15,7 @@ class Solution {
         head =  mergeList(head, prev);
     }
     
+    //reverse last half
     private ListNode reverseList(ListNode head) {
         ListNode newHead = null;
         while(head != null) {
@@ -24,6 +27,7 @@ class Solution {
         return newHead;
     }
     
+    //merge two halves one by one
     private ListNode mergeList(ListNode l1, ListNode l2) {
         ListNode temp1 = l1;
         ListNode temp2 = l2;
