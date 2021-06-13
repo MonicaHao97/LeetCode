@@ -1,6 +1,6 @@
 class Solution {
     public ListNode removeNthFromEnd(ListNode head, int n) {
-        ListNode temp = head;
+       ListNode temp = head;
         ListNode point = new ListNode();
         point.next = head;
         int count = 0;
