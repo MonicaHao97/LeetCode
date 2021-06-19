@@ -1,42 +1,40 @@
 class Solution {
     public int romanToInt(String s) {
+        //Use a map as dictionary for Roman to Int
+        Map<Character, Integer> dictionary = new HashMap<>();
+        dictionary.put('I', 1);
+        dictionary.put('V', 5);
+        dictionary.put('X', 10);
+        dictionary.put('L', 50);
+        dictionary.put('C', 100);
+        dictionary.put('D', 500);
+        dictionary.put('M', 1000);
+        
+        
         int sum = 0;
-        char[] c = s.toCharArray();
-        int[] roman = new int[c.length];
-        for (int i = 0; i < s.length(); i ++){
-            if (c[i] == 'M'){
-                roman[i] = 1000;
+        int prevInt = 0;
+        //Use index from the highest: smallest Roman
+        int index = s.length() - 1;
+        //Convert to CharArray for indexing
+        char[] roman = s.toCharArray();
+        while(index >= 0) {
+            //Access curInt use map
+            int curInt = dictionary.get(roman[index]);
+            
+            //Speical case: 4, 9, 40 etc
+            //Common: IV the smaller index value < bigger index value
+            //If that's the case, minus curInt, if not, plus sum
+            if(curInt >= prevInt) {
+                sum += curInt;
+            }else{
+                sum -= curInt;
             }
-            else if(c[i] == 'D'){
-                roman[i] = 500;
-            }
-            else if(c[i] == 'C'){
-                roman[i] = 100;
-            }
-            else if(c[i] == 'L'){
-                roman[i] = 50;
-            }
-            else if(c[i] == 'X'){
-                roman[i] = 10;
-            }
-            else if(c[i] == 'V'){
-                roman[i] = 5;
-            }
-            else{
-                roman[i] = 1;
-            }
+            
+            //Update index and prevInt
+            index --;
+            prevInt = curInt;
         }
         
-        for(int i = 1; i <= roman.length; i ++){
-            int range = i - 1;
-            if(i <roman.length && roman[range] < roman[i]){
-                sum += roman[i] - roman[range];
-                i ++;
-              }
-            else{
-                sum += roman[range];
-            }
-        }
         return sum;
     }
 }
