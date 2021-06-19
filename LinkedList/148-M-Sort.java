@@ -1,9 +1,11 @@
 class Solution {
-    public ListNode sortList(ListNode head) {        
+    public ListNode sortList(ListNode head) {
         if(head == null || head.next == null) {
             return head;
         }
         
+        //Break into halves
+        //Use prev node to break list
         ListNode slow = head;
         ListNode fast = head;
         ListNode prev = head;
@@ -14,34 +16,41 @@ class Solution {
         }
         prev.next = null;
         
-        ListNode temp1 = sortList(head);
-        ListNode temp2 = sortList(slow);
+        //Use recursion to break each half
+        ListNode l1 = sortList(head);
+        ListNode l2 = sortList(slow);
         
-        return merge(temp1, temp2);
+        //Merge each node
+        return mergeList(l1, l2);
     }
     
-    private ListNode merge(ListNode l1, ListNode l2) {
-        ListNode l = new ListNode(0);
-        ListNode p1 = l;
+    public ListNode mergeList(ListNode l1, ListNode l2) {
+        //Create newHead to store result
+        ListNode newHead = new ListNode(0);
+        ListNode temp = newHead;
         
+        //Traverse l1 & l2
+        //Compare values and connect temp with smaller one
         while(l1 != null && l2 != null) {
-            if(l1.val <= l2.val) {
-                p1.next = l1;
-                l1 = l1.next;
-            }else{
-                p1.next = l2;
+            if(l1.val >= l2.val) {
+                temp.next = l2;
                 l2 = l2.next;
+            }else{
+                temp.next = l1;
+                l1 = l1.next;
             }
-           p1 = p1.next;
+            temp = temp.next;
         }
         
-        if(l1 != null){
-            p1.next = l1;
+        //Add the rest nodes
+        if(l1 != null) {
+            temp.next = l1;
         }
         
-        if(l2 != null){
-            p1.next = l2;
+        if(l2 != null) {
+            temp.next = l2;
         }
-        return l.next;
+        
+        return newHead.next;
     }
 }
