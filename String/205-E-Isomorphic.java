@@ -1,27 +1,19 @@
 class Solution {
     public boolean isIsomorphic(String s, String t) {
-        char[] s1 = s.toCharArray();
-        char[] t1 = t.toCharArray();
-        HashMap<Character,Character> temp = new HashMap<> ();
+        //Create an int array with length 512 (256 *2)
+        int[] compare = new int[512];
         
-        if(s.length() == 0 || s.length() <= 1){
-            return true;
-        }
-        
-        for(int i = 0; i < s1.length; i ++){
-            if(temp.containsKey(s1[i])){
-                if(!temp.get(s1[i]).equals(t1[i]))
-                    return false;
+        //If two strings are isomorphic, should return same value at same index
+        //If not, return false
+        //Add i + 1 for each index (avoid 0, since its default value)
+        for(int i = 0; i < s.length(); i ++) {
+            if(compare[s.charAt(i)] != compare[t.charAt(i) + 256]) {
+                return false;
             }
-            else{
-                if(!temp.containsValue(t1[i])){
-                    temp.put(s1[i],t1[i]);
-                }
-                else{
-                    return false;
-                }
-            }  
+            compare[s.charAt(i)] = i + 1;
+            compare[t.charAt(i) + 256] = i + 1;
         }
+        
         return true;
     }
 }
